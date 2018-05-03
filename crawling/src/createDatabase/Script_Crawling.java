@@ -9,13 +9,13 @@ import org.jsoup.select.Elements;
 
 public class Script_Crawling {
 	//영화대본 사이트 A로 시작하는 페이지인데 마지막 페이지 넘버는 공란이다.
-	static String base_url = "https://www.springfieldspringfield.co.uk/movie_scripts.php?order=A&page=";
+	static String base_url = "https://www.springfieldspringfield.co.uk/movie_scripts.php?order=D&page=";
 	static int page = 1;
 	static String complete_url = base_url + page;
 	
 	public static void main(String[] args) throws IOException {
 		
-		while(page < 2) {
+		while(page < 93) {
 			//A로 시작하는 영화 1페이지에 해당하는 Jsoup 객체를 하나 생성해줬다.
 			Document doc = Jsoup.connect(complete_url).get();
 			//영화의 스크립트를 보러 들어가는 a태그 이다.

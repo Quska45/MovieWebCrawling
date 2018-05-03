@@ -32,10 +32,10 @@ public class ScriptDAO {
 					   + "VALUES(seq_moviescript.nextval, ?, ?, ?, ?)";
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, index);
-			pstmt.setString(2, tit_str);
-			pstmt.setInt(3, year);
-			pstmt.setString(4, body_str);
+			pstmt.setString(1, index); //a로 시작하는 영화를 나타낸다.
+			pstmt.setString(2, tit_str); //제목에 해당한다.
+			pstmt.setInt(3, year); //영화의 제작 년도에 해당한다.
+			pstmt.setString(4, body_str); //영화의 본문 스크립트에 해당한다.
 
 			result = pstmt.executeUpdate();
 
@@ -164,7 +164,7 @@ public class ScriptDAO {
 	
 
 	
-	//원시 테이블 수정(morpheme, meaning, rno 추가)
+	//원시 테이블 수정(morpheme, meaning, rno 추가), r을 통해 텍스트마이닝된 결과가 들어있는 테이블에 내가 원하는 값을 추가 시켜 줄 것이다. 
 	public void alterTable(int num) {
 		
 		try {
@@ -216,6 +216,31 @@ public class ScriptDAO {
 			DBManager.close(conn, pstmt);
 		}
 		
+	}
+	
+	//영화포스터를 크롤링하기 위한 메서드
+	public String imgCrawling(int i){
+		String tit_result = null;
+		try {
+			conn = DBManager.getConnection();
+			
+			String sql = "SELECT title FROM moviescript WHERE mno = " + i;
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				tit_result = rs.getString("title");
+			}
+			System.out.println(tit_result);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt, rs);
+			
+		}
+		return tit_result;
 	}
 	
 	//시퀀스 전체 삭제하는 sql문 찾다가 빡쳐서 만든 메서드
