@@ -18,13 +18,13 @@ public class ImgCrawling {
 		String result;
 		String tit_result;
 		int i =1;
-		while(i<3){
+		while(i<10){
 			//영화의 제목을 가져와 변수에 담아줬다.
 			result= sDao.imgCrawling(i);
 			//네이버 영화에서 제목을 검색하면 공백이 +로 치환되어 들어가기 떄문에 공백을 +로 치환했다.
 			tit_result = result.replace(" ", "+");
 			
-			complete_url = base_url1 + page + base_url2;
+			complete_url = base_url1 + tit_result + base_url2;
 			
 			//내가 검색하고 싶은 제목으로 url을 구성하고 이것을 document객체에 넣어줬다. 
 			Document doc = Jsoup.connect(complete_url).get();
@@ -42,6 +42,10 @@ public class ImgCrawling {
 			Document doc2 = Jsoup.connect(real_url).get();
 			Elements img = doc2.select("div#page_content a img");
 			System.out.println("img : " + img);
+			
+			String imgSrc = img.attr("src");
+			
+			System.out.println("최종 이미지 경로" + imgSrc);
 			
 			i++;
 		}
